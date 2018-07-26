@@ -14,6 +14,9 @@ class Board extends Component {
 
   onClickCell(i) {
     const board = this.state.board;
+    if (board[i]) {
+      return;
+    }
     board[i] = this.state.ticTurn ? TIC_TURN_CHECKER : TAC_TURN_CHECKER;
     this.setState({
       board: board,
