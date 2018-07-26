@@ -2,21 +2,27 @@ import React, { Component } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
-const DIMENSION = 3;
+import Board from "./components/Board";
 
-const BoardRow = ({ rowCells, rowIndex }) => (
-  <div>{rowCells.map((_, k) => <button key={`${rowIndex}${k}`} />)}</div>
-);
-const Board = ({ board }) => (
-  <div>
-    {board.map((_, k) => <BoardRow key={k} rowCells={board[k]} rowIndex={k} />)}
-  </div>
-);
+// const DIMENSION = 3;
+// const INITIAL_STATE = {
+//   board: Array(DIMENSION * DIMENSION).fill(null),
+//   ticTurn: true
+// };
 
 class App extends Component {
+  // state = INITIAL_STATE;
+
+  // onClickCell(i) {
+  //   const board = this.state.board;
+  //   board[i] = "X";
+  //   this.setState({
+  //     board: board
+  //   });
+  // }
+
   render() {
-    const boardRowCells = Array(DIMENSION).fill(null);
-    const board = Array(DIMENSION).fill(boardRowCells);
+    // const { board } = this.state;
 
     return (
       <div className="App">
@@ -28,7 +34,7 @@ class App extends Component {
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
         <div>
-          <Board board={board} />
+          <Board />
         </div>
       </div>
     );
