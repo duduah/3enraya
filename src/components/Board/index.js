@@ -9,6 +9,25 @@ const INITIAL_STATE = {
   ticTurn: true
 };
 
+const sliceInRows = (array, size) =>
+  array
+    .map((_, index) => index % size === 0 && array.slice(index, index + size))
+    .filter(row => row);
+
+const sliceInColumns = (array, size) =>
+  array
+    .map((_, index) => {
+      if (index < size) {
+        let column = Array(size);
+        for (let i = 0; i < size; i++) {
+          column[i] = array[index + size * i];
+        }
+        return column;
+      }
+      return false;
+    })
+    .filter(row => row);
+
 class Board extends Component {
   state = INITIAL_STATE;
 
@@ -22,6 +41,19 @@ class Board extends Component {
       board: board,
       ticTurn: !this.state.ticTurn
     });
+  }
+
+  rowCompleted(board) {
+    let winnerRow = "";
+    const boardRows = sliceInRows(board, DIMENSION);
+    const boardColumns = sliceInColumns(board, DIMENSION);
+
+    for (let i = 0; i < boardRows.length && winnerRow !== ""; i++) {
+      const boardRow = boardRows[i];
+      const checker = boardRow[0] ? boardRow[0] : null;
+      winnerRow = checker && boardRow.every(v => v === checker) ? checker : "";
+    }
+    return winnerRow;
   }
 
   render() {
