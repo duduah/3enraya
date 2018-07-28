@@ -10,6 +10,10 @@ const INITIAL_STATE = {
   ticTurn: true
 };
 
+const ResetButton = ({ onClick, text }) => (
+  <button onClick={onClick}>{text}</button>
+);
+
 class Board extends Component {
   state = INITIAL_STATE;
 
@@ -22,6 +26,13 @@ class Board extends Component {
     this.setState({
       board: board,
       ticTurn: !this.state.ticTurn
+    });
+  }
+
+  restartGame() {
+    this.setState({
+      board: Array(DIMENSION * DIMENSION).fill(null),
+      ticTurn: true
     });
   }
 
@@ -69,11 +80,28 @@ class Board extends Component {
     return (
       <div>
         {winner ? (
-          <div>{winner} WINS!!!</div>
+          <div>
+            <div>{winner} WINS!!!</div>
+            <div>
+              <ResetButton text="Restart" onClick={() => this.restartGame()} />
+            </div>
+          </div>
         ) : (
           <div>Turn for player: {this.getPlayerChecker()}</div>
         )}
-        <div>{rows.map((v, k) => this.printBoardRow(v, k))}</div>
+        <div>
+          {rows.map((row, rowIndex) => (
+            <div key={rowIndex}>
+              {row.map((v, k) => (
+                <Cell
+                  key={rowIndex * DIMENSION + k}
+                  value={v}
+                  onClick={() => this.onClickCell(rowIndex * DIMENSION + k)}
+                />
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
