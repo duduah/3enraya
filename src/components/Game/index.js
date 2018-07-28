@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
+
 import { DIMENSION, sliceInColumns, sliceInDiagonals, sliceInRows } from '../../utils';
 
 import Row from '../../layouts/RowGrid';
@@ -16,26 +16,20 @@ const INITIAL_STATE = {
   gameFinished: false,
 };
 
-const StyledContainer = styled.div`
-  flex: 1;
-  display: block;
-  justify-content: center;
-`;
-
 class Game extends Component {
   state = INITIAL_STATE;
 
   onClickCell(i) {
-    const board = this.state.board;
-    if (board[i] || this.state.gameFinished) {
+    const { board, gameFinished, ticTurn } = this.state;
+    if (board[i] || gameFinished) {
       return;
     }
     board[i] = this.getPlayerChecker();
     const winner = this.getWinnerChecker(board);
     this.setState({
       board: board,
-      ticTurn: winner !== '' ? this.state.ticTurn : !this.state.ticTurn,
-      gameFinished: winner !== '',
+      ticTurn: winner !== '' ? ticTurn : !ticTurn,
+      gameFinished: winner !== '' || this.boardCompleted(),
     });
   }
 
@@ -63,21 +57,43 @@ class Game extends Component {
   }
 
   getPlayerChecker() {
-    return this.state.ticTurn ? TIC_TURN_CHECKER : TAC_TURN_CHECKER;
+    if (this.boardCompleted()) {
+      return null;
+    } else {
+      return this.state.ticTurn ? TIC_TURN_CHECKER : TAC_TURN_CHECKER;
+    }
+  }
+
+  boardCompleted() {
+    const { board } = this.state;
+    return board.filter(e => e).length === board.length;
   }
 
   render() {
     const rows = sliceInRows(this.state.board, DIMENSION);
     return (
-      <StyledContainer>
+      <div>
         {this.state.gameFinished ? (
           <div>
-            <Text center color="white" background="active" space>
-              {this.getPlayerChecker()} WINS!!!
-            </Text>
-            <Button type="butotn" text="Restart" onClick={() => this.restartGame()}>
-              Restart
-            </Button>
+            {this.boardCompleted() ? (
+              <div>
+                <Text center color="white" background="advice" space>
+                  NO WINNERS THIS TIME :(
+                </Text>
+                <Button type="butotn" text="Restart" onClick={() => this.restartGame()}>
+                  Try again!
+                </Button>
+              </div>
+            ) : (
+              <div>
+                <Text center color="white" background="active" space>
+                  {this.getPlayerChecker()} WINS!!!
+                </Text>
+                <Button type="butotn" text="Restart" onClick={() => this.restartGame()}>
+                  Restart
+                </Button>
+              </div>
+            )}
           </div>
         ) : (
           <div>
@@ -102,7 +118,7 @@ class Game extends Component {
             </Row>
           ))}
         </Grid>
-      </StyledContainer>
+      </div>
     );
   }
 }

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Cell from '../Cell';
 
 const ButtonGrid = ({ onClick, value }) => (
-  <Cell onClick={onClick}>
+  <Cell onClick={onClick} background={value}>
     {value}
   </Cell>
 );

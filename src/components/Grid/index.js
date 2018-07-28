@@ -4,6 +4,9 @@ const Grid = styled.div`
   flex: 1;
   display: block;
   justify-content: center;
+  justify-items: center;
+  justify-self: center;
+  align-self: center;
   max-width: 550px;
   width: 100%;
   padding: 30px;
