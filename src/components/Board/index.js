@@ -64,53 +64,25 @@ class Board extends Component {
     return winnerRow;
   }
 
+  printBoardRow(row, rowIndex) {
+    if (row && row.length === DIMENSION) {
+      return (
+        <div key={rowIndex}>
+          {row.map((v, k) => (
+            <Cell
+              key={rowIndex * DIMENSION + k}
+              value={v}
+              onClick={() => this.onClickCell(rowIndex * DIMENSION + k)}
+            />
+          ))}
+        </div>
+      );
+    }
+  }
+
   render() {
-    return (
-      <div>
-        <div>
-          <Cell
-            value={this.state.board[0]}
-            onClick={() => this.onClickCell(0)}
-          />
-          <Cell
-            value={this.state.board[1]}
-            onClick={() => this.onClickCell(1)}
-          />
-          <Cell
-            value={this.state.board[2]}
-            onClick={() => this.onClickCell(2)}
-          />
-        </div>
-        <div>
-          <Cell
-            value={this.state.board[3]}
-            onClick={() => this.onClickCell(3)}
-          />
-          <Cell
-            value={this.state.board[4]}
-            onClick={() => this.onClickCell(4)}
-          />
-          <Cell
-            value={this.state.board[5]}
-            onClick={() => this.onClickCell(5)}
-          />
-        </div>
-        <div>
-          <Cell
-            value={this.state.board[6]}
-            onClick={() => this.onClickCell(6)}
-          />
-          <Cell
-            value={this.state.board[7]}
-            onClick={() => this.onClickCell(7)}
-          />
-          <Cell
-            value={this.state.board[8]}
-            onClick={() => this.onClickCell(8)}
-          />
-        </div>
-      </div>
-    );
+    const rows = sliceInRows(this.state.board, DIMENSION);
+    return <div>{rows.map((v, k) => this.printBoardRow(v, k))}</div>;
   }
 }
 
