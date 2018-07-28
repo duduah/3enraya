@@ -1,8 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 import './index.css';
-import App from './App';
+
+import { ThemeProvider } from 'styled-components';
+import theme from './theme';
+import Game from './components/Game';
 import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+  <ThemeProvider theme={theme}>
+    <Game />
+  </ThemeProvider>,
+  document.getElementById('root'),
+);
 registerServiceWorker();

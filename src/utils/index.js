@@ -1,3 +1,5 @@
+export const DIMENSION = 3;
+
 export const sliceInRows = (array, size) =>
   array
     .map((_, index) => index % size === 0 && array.slice(index, index + size))
@@ -5,7 +7,7 @@ export const sliceInRows = (array, size) =>
 
 export const sliceInColumns = (array, size) => {
   const arrayRows = sliceInRows(array, size);
-  let arrayColums = Array(arrayRows.length);
+  const arrayColums = Array(arrayRows.length);
   for (let i = 0; i < arrayRows.length; i++) {
     arrayColums[i] = arrayRows.map((_, k) => arrayRows[k][i]);
   }
