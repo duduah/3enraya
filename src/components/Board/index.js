@@ -7,7 +7,8 @@ const TIC_TURN_CHECKER = "X";
 const TAC_TURN_CHECKER = "O";
 const INITIAL_STATE = {
   board: Array(DIMENSION * DIMENSION).fill(null),
-  ticTurn: true
+  ticTurn: true,
+  gameFinished: false
 };
 
 const ResetButton = ({ onClick, text }) => (
@@ -19,20 +20,23 @@ class Board extends Component {
 
   onClickCell(i) {
     const board = this.state.board;
-    if (board[i] || this.getWinnerChecker(board)) {
+    if (board[i] || this.state.gameFinished) {
       return;
     }
     board[i] = this.getPlayerChecker();
+    const winner = this.getWinnerChecker(board);
     this.setState({
       board: board,
-      ticTurn: !this.state.ticTurn
+      ticTurn: winner !== "" ? this.state.ticTurn : !this.state.ticTurn,
+      gameFinished: winner !== ""
     });
   }
 
   restartGame() {
     this.setState({
       board: Array(DIMENSION * DIMENSION).fill(null),
-      ticTurn: true
+      ticTurn: true,
+      gameFinished: false
     });
   }
 
@@ -79,9 +83,9 @@ class Board extends Component {
     const winner = this.getWinnerChecker(this.state.board);
     return (
       <div>
-        {winner ? (
+        {this.state.gameFinished ? (
           <div>
-            <div>{winner} WINS!!!</div>
+            <div>{this.getPlayerChecker()} WINS!!!</div>
             <div>
               <ResetButton text="Restart" onClick={() => this.restartGame()} />
             </div>
