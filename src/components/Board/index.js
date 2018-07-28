@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Cell from "../Cell";
+import { sliceInColumns, sliceInDiagonals, sliceInRows } from "../../utils";
 
 const DIMENSION = 3;
 const TIC_TURN_CHECKER = "X";
@@ -7,28 +8,6 @@ const TAC_TURN_CHECKER = "O";
 const INITIAL_STATE = {
   board: Array(DIMENSION * DIMENSION).fill(null),
   ticTurn: true
-};
-
-const sliceInRows = (array, size) =>
-  array
-    .map((_, index) => index % size === 0 && array.slice(index, index + size))
-    .filter(row => row);
-
-const sliceInColumns = (array, size) => {
-  const arrayRows = sliceInRows(array, size);
-  let arrayColums = Array(arrayRows.length);
-  for (let i = 0; i < arrayRows.length; i++) {
-    arrayColums[i] = arrayRows.map((_, k) => arrayRows[k][i]);
-  }
-  return arrayColums;
-};
-
-const sliceInDiagonals = (array, size) => {
-  const boardRows = sliceInRows(array, size);
-  const diagonal1 = boardRows.map((_, k) => boardRows[k][k]);
-  const diagonal2 = boardRows.reverse().map((_, k) => boardRows[k][k]);
-
-  return [diagonal1, diagonal2];
 };
 
 class Board extends Component {
@@ -39,7 +18,7 @@ class Board extends Component {
     if (board[i] || this.getWinnerChecker(board)) {
       return;
     }
-    board[i] = this.state.ticTurn ? TIC_TURN_CHECKER : TAC_TURN_CHECKER;
+    board[i] = this.getPlayerChecker();
     this.setState({
       board: board,
       ticTurn: !this.state.ticTurn
@@ -80,9 +59,18 @@ class Board extends Component {
     }
   }
 
+  getPlayerChecker() {
+    return this.state.ticTurn ? TIC_TURN_CHECKER : TAC_TURN_CHECKER;
+  }
+
   render() {
     const rows = sliceInRows(this.state.board, DIMENSION);
-    return <div>{rows.map((v, k) => this.printBoardRow(v, k))}</div>;
+    return (
+      <div>
+        <div>Turn for player: {this.getPlayerChecker()}</div>
+        <div>{rows.map((v, k) => this.printBoardRow(v, k))}</div>
+      </div>
+    );
   }
 }
 
