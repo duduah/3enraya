@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 
 import { DIMENSION, sliceInColumns, sliceInDiagonals, sliceInRows } from '../../utils';
 
-import Row from '../../layouts/RowGrid';
-import ButtonGrid from '../ButtonGrid';
-import Grid from '../Grid';
-import Button from '../Button';
-import Text from '../Text';
+import { StyledRow } from '../../layouts';
+import { ButtonGrid, Grid, DisplayRestart, DisplayTurn } from '../../components';
+
+// import { DisplayRestart, DisplayTurn } from '../HeaderDisplay';
 
 const TIC_TURN_CHECKER = 'X';
 const TAC_TURN_CHECKER = 'O';
@@ -74,40 +73,17 @@ class Game extends Component {
     return (
       <div>
         {this.state.gameFinished ? (
-          <div>
-            {this.boardCompleted() ? (
-              <div>
-                <Text center color="white" background="advice" space>
-                  NO WINNERS THIS TIME :(
-                </Text>
-                <Button type="butotn" text="Restart" onClick={() => this.restartGame()}>
-                  Try again!
-                </Button>
-              </div>
-            ) : (
-              <div>
-                <Text center color="white" background="active" space>
-                  {this.getPlayerChecker()} WINS!!!
-                </Text>
-                <Button type="butotn" text="Restart" onClick={() => this.restartGame()}>
-                  Restart
-                </Button>
-              </div>
-            )}
-          </div>
+          <DisplayRestart
+            completed={this.boardCompleted()}
+            playerChecker={this.getPlayerChecker()}
+            onClick={() => this.restartGame()}
+          />
         ) : (
-          <div>
-            <Text center space>
-              Turn for player:
-            </Text>
-            <Text center color="white" background={this.getPlayerChecker()} space>
-              {this.getPlayerChecker()}
-            </Text>
-          </div>
+          <DisplayTurn playerChecker={this.getPlayerChecker()} />
         )}
         <Grid>
           {rows.map((row, rowIndex) => (
-            <Row key={rowIndex} className="board-row">
+            <StyledRow key={rowIndex} className="board-row">
               {row.map((v, k) => (
                 <ButtonGrid
                   key={rowIndex * DIMENSION + k}
@@ -115,7 +91,7 @@ class Game extends Component {
                   onClick={() => this.onClickCell(rowIndex * DIMENSION + k)}
                 />
               ))}
-            </Row>
+            </StyledRow>
           ))}
         </Grid>
       </div>
