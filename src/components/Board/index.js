@@ -14,26 +14,29 @@ const sliceInRows = (array, size) =>
     .map((_, index) => index % size === 0 && array.slice(index, index + size))
     .filter(row => row);
 
-const sliceInColumns = (array, size) =>
-  array
-    .map((_, index) => {
-      if (index < size) {
-        let column = Array(size);
-        for (let i = 0; i < size; i++) {
-          column[i] = array[index + size * i];
-        }
-        return column;
-      }
-      return false;
-    })
-    .filter(row => row);
+const sliceInColumns = (array, size) => {
+  const arrayRows = sliceInRows(array, size);
+  let arrayColums = Array(arrayRows.length);
+  for (let i = 0; i < arrayRows.length; i++) {
+    arrayColums[i] = arrayRows.map((_, k) => arrayRows[k][i]);
+  }
+  return arrayColums;
+};
+
+const sliceInDiagonals = (array, size) => {
+  const boardRows = sliceInRows(array, size);
+  const diagonal1 = boardRows.map((_, k) => boardRows[k][k]);
+  const diagonal2 = boardRows.reverse().map((_, k) => boardRows[k][k]);
+
+  return [diagonal1, diagonal2];
+};
 
 class Board extends Component {
   state = INITIAL_STATE;
 
   onClickCell(i) {
     const board = this.state.board;
-    if (board[i]) {
+    if (board[i] || this.getWinnerChecker(board)) {
       return;
     }
     board[i] = this.state.ticTurn ? TIC_TURN_CHECKER : TAC_TURN_CHECKER;
@@ -43,15 +46,20 @@ class Board extends Component {
     });
   }
 
-  rowCompleted(board) {
+  getWinnerChecker(board) {
     let winnerRow = "";
     const boardRows = sliceInRows(board, DIMENSION);
     const boardColumns = sliceInColumns(board, DIMENSION);
+    const boardDiagonals = sliceInDiagonals(board, DIMENSION);
+    const boardEvaluation = boardRows.concat(
+      boardColumns.concat(boardDiagonals)
+    );
 
-    for (let i = 0; i < boardRows.length && winnerRow !== ""; i++) {
-      const boardRow = boardRows[i];
-      const checker = boardRow[0] ? boardRow[0] : null;
-      winnerRow = checker && boardRow.every(v => v === checker) ? checker : "";
+    for (let i = 0; i < boardEvaluation.length && winnerRow === ""; i++) {
+      const boardEvaluate = boardEvaluation[i];
+      const checker = boardEvaluate[0] ? boardEvaluate[0] : null;
+      winnerRow =
+        checker && boardEvaluate.every(v => v === checker) ? checker : "";
     }
     return winnerRow;
   }
@@ -105,25 +113,5 @@ class Board extends Component {
     );
   }
 }
-
-// const Board = ({ board, onClick }) => (
-//     <div>
-//         <div>
-//             <Cell value={board[0]} onClick={onClick(0)} />
-//             <Cell value={board[1]} onClick={onClick(1)} />
-//             <Cell value={board[2]} onClick={onClick(2)} />
-//         </div>
-//         <div>
-//             <Cell value={board[3]} onClick={onClick(3)} />
-//             <Cell value={board[4]} onClick={onClick(4)} />
-//             <Cell value={board[5]} onClick={onClick(5)} />
-//         </div>
-//         <div>
-//             <Cell value={board[6]} onClick={onClick(6)} />
-//             <Cell value={board[7]} onClick={onClick(7)} />
-//             <Cell value={board[8]} onClick={onClick(8)} />
-//         </div>
-//     </div>
-// );
 
 export default Board;
