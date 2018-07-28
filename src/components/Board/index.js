@@ -65,9 +65,14 @@ class Board extends Component {
 
   render() {
     const rows = sliceInRows(this.state.board, DIMENSION);
+    const winner = this.getWinnerChecker(this.state.board);
     return (
       <div>
-        <div>Turn for player: {this.getPlayerChecker()}</div>
+        {winner ? (
+          <div>{winner} WINS!!!</div>
+        ) : (
+          <div>Turn for player: {this.getPlayerChecker()}</div>
+        )}
         <div>{rows.map((v, k) => this.printBoardRow(v, k))}</div>
       </div>
     );
