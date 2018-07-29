@@ -1,20 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Text, Button } from '../..';
+
+import { Text, Button } from '../../..';
+import HeaderWrapper from '../HeaderWrapper';
+import HeaderCompact from '../HeaderCompact';
 
 const Restart = ({ completed, playerChecker, onClick }) => (
-  <div>
+  <HeaderWrapper>
     {completed ? (
-      <div>
+      <HeaderCompact>
         <Text center color="white" background="advice" space>
           NO WINNERS THIS TIME :(
         </Text>
         <Button type="button" onClick={onClick}>
           Try again!
         </Button>
-      </div>
+      </HeaderCompact>
     ) : (
-      <div>
+      <HeaderCompact>
         <Text center color="white" background="active" space>
           {playerChecker}
           {' '}
@@ -23,9 +26,9 @@ WINS!!!
         <Button type="button" onClick={onClick}>
           Restart
         </Button>
-      </div>
+      </HeaderCompact>
     )}
-  </div>
+  </HeaderWrapper>
 );
 
 Restart.defaultProps = {

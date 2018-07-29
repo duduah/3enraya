@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 
 import { DIMENSION, sliceInColumns, sliceInDiagonals, sliceInRows } from '../../utils';
 
-import { StyledRow } from '../../layouts';
-import { ButtonGrid, Grid, DisplayRestart, DisplayTurn } from '../../components';
-
-// import { DisplayRestart, DisplayTurn } from '../HeaderDisplay';
+import { StyledRow, Template } from '../../layouts';
+import { ButtonGrid, Grid, HeaderDisplay } from '../../components';
 
 const TIC_TURN_CHECKER = 'X';
 const TAC_TURN_CHECKER = 'O';
@@ -71,16 +69,13 @@ class Game extends Component {
   render() {
     const rows = sliceInRows(this.state.board, DIMENSION);
     return (
-      <div>
-        {this.state.gameFinished ? (
-          <DisplayRestart
-            completed={this.boardCompleted()}
-            playerChecker={this.getPlayerChecker()}
-            onClick={() => this.restartGame()}
-          />
-        ) : (
-          <DisplayTurn playerChecker={this.getPlayerChecker()} />
-        )}
+      <Template logo="https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Tic_tac_toe.svg/2000px-Tic_tac_toe.svg.png">
+        <HeaderDisplay
+          finished={this.state.gameFinished}
+          completed={this.boardCompleted()}
+          playerChecker={this.getPlayerChecker()}
+          onClick={() => this.restartGame()}
+        />
         <Grid>
           {rows.map((row, rowIndex) => (
             <StyledRow key={rowIndex} className="board-row">
@@ -94,7 +89,7 @@ class Game extends Component {
             </StyledRow>
           ))}
         </Grid>
-      </div>
+      </Template>
     );
   }
 }

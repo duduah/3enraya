@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import styledMap from 'styled-map';
 
 const StyledHeader = styled.header`
+  text-align: center;
+  align-items: center;
   background-color: ${({ theme }) => theme.colors.black};
   color: ${({ theme }) => theme.colors.white};
   height: 150px;
