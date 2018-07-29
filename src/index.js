@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import { ThemeProvider } from 'styled-components';
 import theme from './theme';
-import Game from './components/Game';
+import { Game } from './components';
 import registerServiceWorker from './registerServiceWorker';
 
 ReactDOM.render(

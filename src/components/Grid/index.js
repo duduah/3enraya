@@ -8,7 +8,7 @@ const Grid = styled.div`
   justify-self: center;
   align-self: center;
   max-width: 550px;
-  width: 100%;
+  width: inherit;
   padding: 30px;
 `;
 
