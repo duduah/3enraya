@@ -9,27 +9,23 @@ const StyledText = styled.p`
     center: 'center',
     default: 'left',
   })};
-  color: ${({ theme }) =>
-    styledMap('color', {
-      white: theme.colors.white,
-      O: theme.colors.O,
-      X: theme.colors.X,
-      advice: theme.colors.advice,
-      primary: theme.colors.primary,
-      active: theme.colors.active,
-      default: theme.colors.black,
-    })};
-  background: ${({ theme }) =>
-    styledMap('background', {
-      white: theme.colors.white,
-      O: theme.colors.O,
-      X: theme.colors.X,
-      advice: theme.colors.advice,
-      primary: theme.colors.primary,
-      active: theme.colors.active,
-      black: theme.colors.black,
-      default: 'transparent',
-    })};
+  color: ${({ theme }) => styledMap('color', {
+    white: theme.colors.white,
+    O: theme.colors.O,
+    X: theme.colors.X,
+    advice: theme.colors.advice,
+    active: theme.colors.active,
+    default: theme.colors.black,
+  })};
+  background: ${({ theme }) => styledMap('background', {
+    white: theme.colors.white,
+    O: theme.colors.O,
+    X: theme.colors.X,
+    advice: theme.colors.advice,
+    active: theme.colors.active,
+    black: theme.colors.black,
+    default: 'transparent',
+  })};
   padding: ${styledMap({
     space: '10px 20px',
     default: '5px 10px',

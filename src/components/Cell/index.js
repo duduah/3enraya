@@ -3,13 +3,8 @@ import styledMap from 'styled-map';
 
 const StyledCell = styled.button`
   background: ${({ theme }) => styledMap('background', {
-    white: theme.colors.white,
     O: theme.colors.O,
     X: theme.colors.X,
-    advice: theme.colors.advice,
-    primary: theme.colors.primary,
-    active: theme.colors.active,
-    black: theme.colors.black,
     default: 'transparent',
   })};
   border: 1px solid ${({ theme }) => theme.colors.black};

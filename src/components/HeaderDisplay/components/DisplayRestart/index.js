@@ -10,7 +10,7 @@ const Restart = ({ completed, playerChecker, onClick }) => (
     {completed ? (
       <HeaderCompact>
         <Text center color="white" background="advice" space>
-          NO WINNERS THIS TIME :(
+          NO WINNER :(
         </Text>
         <Button type="button" onClick={onClick}>
           Try again!
