@@ -3,6 +3,7 @@ Este desarrollo se ha hecho para el ejercicio práctico del **módulo de React**
 
 ## Ejercicio obligatorio.
 El juego de 3 en raya es totalmente funcional.  
+Se pueden **cambiar las dimensiones del tablero** modificando `DIMENSION` en `src/utils/index.js`.  
 Se ha hecho íntegramente en **React**.  
 No se ha llegado a **Redux** por falta de tiempo.
 
